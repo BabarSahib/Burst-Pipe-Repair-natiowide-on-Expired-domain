@@ -295,7 +295,15 @@ const statesBySlug = new Map(statesData.map(s => [s.slug, s]));
 const servicesBySlug = new Map(servicesData.map(s => [s.slug, s]));
 const costsBySlug = new Map(costsData.map(c => [c.slug, c]));
 const resourcesBySlug = new Map(resourcesData.map(r => [r.slug, r]));
-const legalBySlug = new Map(legalData.map(l => [l.slug, l]));
+const legalPagesList = [
+  { slug: 'about', data: legalData.about },
+  { slug: 'how-it-works', data: legalData.howItWorks, isHowItWorks: true },
+  { slug: 'contact', data: legalData.contact, isContact: true },
+  { slug: 'advertising-disclosure', data: legalData.advertisingDisclosure },
+  { slug: 'privacy-policy', data: legalData.privacyPolicy },
+  { slug: 'terms-of-service', data: legalData.termsOfService }
+];
+const legalBySlug = new Map(legalPagesList.map(l => [l.slug, l]));
 
 // 1. Homepage
 function getHomepageHtml() {
