@@ -1869,8 +1869,9 @@ ${urls.map(u => `  <url>
       ...citySlugs.map(cSlug => `${BASE_URL}/${st.slug}/${cSlug}/`)
     ];
 
-    const sitemapFilename = `sitemap-cities-${st.slug}.xml`;
+    const sitemapFilename = `sitemap-state-${st.slug}.xml`;
     fs.writeFileSync(path.join(DIST_DIR, sitemapFilename), wrapUrlset(stateCityUrls));
+    fs.writeFileSync(path.join(DIST_DIR, `sitemap-cities-${st.slug}.xml`), wrapUrlset(stateCityUrls));
     sitemapIndexList.push(`${BASE_URL}/${sitemapFilename}`);
   });
   fs.writeFileSync(path.join(DIST_DIR, 'sitemap-states.xml'), wrapUrlset(stateUrls));

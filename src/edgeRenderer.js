@@ -1470,7 +1470,7 @@ function handleEdgeRoute(pathname) {
         `${BASE_URL}/sitemap-resources.xml`,
         `${BASE_URL}/sitemap-states.xml`
       ];
-      statesData.forEach(st => sitemapIndexList.push(`${BASE_URL}/sitemap-cities-${st.slug}.xml`));
+      statesData.forEach(st => sitemapIndexList.push(`${BASE_URL}/sitemap-state-${st.slug}.xml`));
       const now = new Date().toISOString().split('T')[0];
       const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapIndexList.map(loc => `  <sitemap><loc>${loc}</loc><lastmod>${now}</lastmod></sitemap>`).join('\n')}\n</sitemapindex>\n`;
       sitemapXmlCache.set('index', xml);
@@ -1540,8 +1540,8 @@ function handleEdgeRoute(pathname) {
     return { status: 200, contentType: 'application/xml; charset=utf-8', body: sitemapXmlCache.get('states') };
   }
 
-  // State-specific City XML Sitemaps (supports /sitemap-cities-[state].xml, /sitemap-state-[state].xml, and /sitemap-[state].xml)
-  const stateMatch = p.match(/^\/sitemap-(?:cities-|state-)?([a-z0-9-]+)\.xml$/);
+  // State XML Sitemaps (supports /sitemap-state-[state].xml, /sitemap-cities-[state].xml, etc.)
+  const stateMatch = p.match(/^\/sitemap-(?:cities-|city-|state-|states-)?([a-z0-9-]+)\.xml$/);
   if (stateMatch) {
     const stSlug = stateMatch[1];
     if (statesBySlug.has(stSlug)) {
