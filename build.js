@@ -1864,10 +1864,10 @@ ${urls.map(u => `  <url>
 
     // State-specific city sitemap
     const citySlugs = citiesByState[st.slug] || [];
-    const stateCityUrls = [];
-    citySlugs.forEach(cSlug => {
-      stateCityUrls.push(`${BASE_URL}/${st.slug}/${cSlug}/`);
-    });
+    const stateCityUrls = [
+      `${BASE_URL}/${st.slug}/`,
+      ...citySlugs.map(cSlug => `${BASE_URL}/${st.slug}/${cSlug}/`)
+    ];
 
     const sitemapFilename = `sitemap-cities-${st.slug}.xml`;
     fs.writeFileSync(path.join(DIST_DIR, sitemapFilename), wrapUrlset(stateCityUrls));

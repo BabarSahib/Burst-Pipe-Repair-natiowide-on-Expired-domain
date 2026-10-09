@@ -1370,6 +1370,67 @@ function getLegalPageHtml(slug) {
   });
 }
 
+function getHtmlSitemap() {
+  const canonical = `${BASE_URL}/sitemap/`;
+
+  const content = `
+    <div class="container article-layout">
+      <div class="article-content">
+        <h1>24/7 Pipe Rescue Complete Site Directory</h1>
+        <p>A full index of services, regional hubs, pricing guides, and educational articles.</p>
+
+        <h2>Core Pages</h2>
+        <ul>
+          <li><a href="/">Home (National Hub)</a></li>
+          <li><a href="/services/">Services Directory</a></li>
+          <li><a href="/states/">50-State Coverage Directory</a></li>
+          <li><a href="/plumbing-costs/">Plumbing Cost Guides</a></li>
+          <li><a href="/resources/">Emergency Guides Hub</a></li>
+          <li><a href="/about/">About Us</a></li>
+          <li><a href="/how-it-works/">How It Works</a></li>
+          <li><a href="/contact/">Contact Dispatch</a></li>
+        </ul>
+
+        <h2>Service Pillars</h2>
+        <ul>
+          ${servicesData.map(s => `<li><a href="/services/${s.slug}/">${s.title}</a></li>`).join('')}
+        </ul>
+
+        <h2>State Hubs</h2>
+        <ul>
+          ${statesData.map(st => `<li><a href="/${st.slug}/">${st.name} Burst Pipe Repair</a></li>`).join('')}
+        </ul>
+
+        <h2>Pricing Guides</h2>
+        <ul>
+          ${costsData.map(c => `<li><a href="/plumbing-costs/${c.slug}/">${c.title}</a></li>`).join('')}
+        </ul>
+
+        <h2>Educational Guides</h2>
+        <ul>
+          ${resourcesData.map(r => `<li><a href="/resources/${r.slug}/">${r.title}</a></li>`).join('')}
+        </ul>
+      </div>
+    </div>
+  `;
+
+  return renderLayout({
+    title: "HTML Sitemap | 24/7 Pipe Rescue Site Directory",
+    metaDesc: "Complete hierarchical site index for 24/7 Pipe Rescue: emergency services, 50 state directories, pricing guides & resources.",
+    canonical,
+    jsonLd: { "@context": "https://schema.org", "@graph": [getOrgSchema()] },
+    breadcrumbs: [{ name: "Home", url: "/" }, { name: "Sitemap", url: canonical }],
+    content
+  });
+}
+
+const sitemapXmlCache = new Map();
+
+function wrapUrlset(urls) {
+  const now = new Date().toISOString().split('T')[0];
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.map(u => `  <url>\n    <loc>${u}</loc>\n    <lastmod>${now}</lastmod>\n  </url>`).join('\n')}\n</urlset>\n`;
+}
+
 // Master Request Resolver (Zero-FS)
 function handleEdgeRoute(pathname) {
   let p = pathname || '/';
@@ -1390,19 +1451,111 @@ function handleEdgeRoute(pathname) {
     };
   }
 
-  // Sitemaps
+  // HTML Sitemap
+  if (p === '/sitemap') {
+    return {
+      status: 200,
+      contentType: 'text/html; charset=utf-8',
+      body: getHtmlSitemap()
+    };
+  }
+
+  // Master XML Sitemap Index
   if (p === '/sitemap.xml') {
-    const sitemapIndexList = [
-      `${BASE_URL}/sitemap-core.xml`,
-      `${BASE_URL}/sitemap-services.xml`,
-      `${BASE_URL}/sitemap-costs.xml`,
-      `${BASE_URL}/sitemap-resources.xml`,
-      `${BASE_URL}/sitemap-states.xml`
-    ];
-    statesData.forEach(st => sitemapIndexList.push(`${BASE_URL}/sitemap-cities-${st.slug}.xml`));
-    const now = new Date().toISOString().split('T')[0];
-    const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapIndexList.map(loc => `  <sitemap><loc>${loc}</loc><lastmod>${now}</lastmod></sitemap>`).join('\n')}\n</sitemapindex>\n`;
-    return { status: 200, contentType: 'application/xml; charset=utf-8', body: xml };
+    if (!sitemapXmlCache.has('index')) {
+      const sitemapIndexList = [
+        `${BASE_URL}/sitemap-core.xml`,
+        `${BASE_URL}/sitemap-services.xml`,
+        `${BASE_URL}/sitemap-costs.xml`,
+        `${BASE_URL}/sitemap-resources.xml`,
+        `${BASE_URL}/sitemap-states.xml`
+      ];
+      statesData.forEach(st => sitemapIndexList.push(`${BASE_URL}/sitemap-cities-${st.slug}.xml`));
+      const now = new Date().toISOString().split('T')[0];
+      const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemapIndexList.map(loc => `  <sitemap><loc>${loc}</loc><lastmod>${now}</lastmod></sitemap>`).join('\n')}\n</sitemapindex>\n`;
+      sitemapXmlCache.set('index', xml);
+    }
+    return { status: 200, contentType: 'application/xml; charset=utf-8', body: sitemapXmlCache.get('index') };
+  }
+
+  // Core XML Sitemap
+  if (p === '/sitemap-core.xml') {
+    if (!sitemapXmlCache.has('core')) {
+      const coreUrls = [
+        `${BASE_URL}/`,
+        `${BASE_URL}/about/`,
+        `${BASE_URL}/how-it-works/`,
+        `${BASE_URL}/contact/`,
+        `${BASE_URL}/advertising-disclosure/`,
+        `${BASE_URL}/privacy-policy/`,
+        `${BASE_URL}/terms-of-service/`,
+        `${BASE_URL}/sitemap/`
+      ];
+      sitemapXmlCache.set('core', wrapUrlset(coreUrls));
+    }
+    return { status: 200, contentType: 'application/xml; charset=utf-8', body: sitemapXmlCache.get('core') };
+  }
+
+  // Services XML Sitemap
+  if (p === '/sitemap-services.xml') {
+    if (!sitemapXmlCache.has('services')) {
+      const serviceUrls = [`${BASE_URL}/services/`];
+      servicesData.forEach(pr => {
+        serviceUrls.push(`${BASE_URL}/services/${pr.slug}/`);
+        pr.children.forEach(ch => {
+          serviceUrls.push(`${BASE_URL}/services/${ch.slug}/`);
+        });
+      });
+      sitemapXmlCache.set('services', wrapUrlset(serviceUrls));
+    }
+    return { status: 200, contentType: 'application/xml; charset=utf-8', body: sitemapXmlCache.get('services') };
+  }
+
+  // Costs XML Sitemap
+  if (p === '/sitemap-costs.xml') {
+    if (!sitemapXmlCache.has('costs')) {
+      const costUrls = [`${BASE_URL}/plumbing-costs/`];
+      costsData.forEach(c => costUrls.push(`${BASE_URL}/plumbing-costs/${c.slug}/`));
+      sitemapXmlCache.set('costs', wrapUrlset(costUrls));
+    }
+    return { status: 200, contentType: 'application/xml; charset=utf-8', body: sitemapXmlCache.get('costs') };
+  }
+
+  // Resources XML Sitemap
+  if (p === '/sitemap-resources.xml') {
+    if (!sitemapXmlCache.has('resources')) {
+      const resUrls = [`${BASE_URL}/resources/`];
+      resourcesData.forEach(r => resUrls.push(`${BASE_URL}/resources/${r.slug}/`));
+      sitemapXmlCache.set('resources', wrapUrlset(resUrls));
+    }
+    return { status: 200, contentType: 'application/xml; charset=utf-8', body: sitemapXmlCache.get('resources') };
+  }
+
+  // States XML Sitemap
+  if (p === '/sitemap-states.xml') {
+    if (!sitemapXmlCache.has('states')) {
+      const stateUrls = statesData.map(st => `${BASE_URL}/${st.slug}/`);
+      sitemapXmlCache.set('states', wrapUrlset(stateUrls));
+    }
+    return { status: 200, contentType: 'application/xml; charset=utf-8', body: sitemapXmlCache.get('states') };
+  }
+
+  // State-specific City XML Sitemaps (supports /sitemap-cities-[state].xml, /sitemap-state-[state].xml, and /sitemap-[state].xml)
+  const stateMatch = p.match(/^\/sitemap-(?:cities-|state-)?([a-z0-9-]+)\.xml$/);
+  if (stateMatch) {
+    const stSlug = stateMatch[1];
+    if (statesBySlug.has(stSlug)) {
+      const cacheKey = `state-${stSlug}`;
+      if (!sitemapXmlCache.has(cacheKey)) {
+        const citySlugs = citiesByState[stSlug] || [];
+        const stateCityUrls = [
+          `${BASE_URL}/${stSlug}/`,
+          ...citySlugs.map(cSlug => `${BASE_URL}/${stSlug}/${cSlug}/`)
+        ];
+        sitemapXmlCache.set(cacheKey, wrapUrlset(stateCityUrls));
+      }
+      return { status: 200, contentType: 'application/xml; charset=utf-8', body: sitemapXmlCache.get(cacheKey) };
+    }
   }
 
   // Hubs
@@ -1451,5 +1604,6 @@ module.exports = {
   handleEdgeRoute,
   getHomepageHtml,
   getStateHtml,
-  getCityHtml
+  getCityHtml,
+  getHtmlSitemap
 };
