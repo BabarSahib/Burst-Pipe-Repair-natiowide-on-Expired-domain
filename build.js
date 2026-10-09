@@ -419,11 +419,41 @@ function compileServices() {
   };
 
   const hubContent = `
-    <div class="container article-layout">
-      <div class="article-content">
-        <h1>Professional Pipe Repair Services Directory</h1>
-        <p>24/7 Pipe Rescue connects homeowners and commercial facilities with specialized, licensed plumbing contractors equipped to handle every type of pressurized pipe failure, freeze rupture, and underground water service leak.</p>
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <div class="hero-status-pill">
+              <span class="pulse-indicator"><span class="pulse-ping"></span><span class="pulse-core"></span></span>
+              <span>24/7 Priority Emergency Service Active</span>
+            </div>
+            <div class="hero-eyebrow">
+              <span>💧 24/7 EMERGENCY BURST PIPE REPAIR</span>
+            </div>
+            <h1 class="hero-title">Professional Pipe Repair & <span class="highlight">Plumbing Services</span><br>24/7 Emergency Dispatch</h1>
+            <p class="hero-subtitle">Connecting homeowners and commercial facilities with specialized, licensed plumbing contractors equipped to handle every type of pressurized pipe failure, freeze rupture, and underground water service leak.</p>
+            <div class="hero-cta-group">
+              <a href="${PHONE_TEL}" class="btn-emergency-call">📞 Call Now</a>
+            </div>
+          </div>
+          <div>
+            <div class="hero-media">
+              <div class="hero-card-frame">
+                <img src="/images/emergency-burst-pipe-repair.jpg" alt="Comprehensive emergency burst pipe repair and rapid plumbing services" class="hero-main-img" width="900" height="650" loading="eager" fetchpriority="high">
+                <div class="hero-img-gradient" aria-hidden="true"></div>
+                <div class="hero-same-day-badge">
+                  <span class="badge-icon">⚡</span>
+                  <span>24/7 Rapid Response</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
+    <div class="container article-layout" style="padding-top: var(--space-8);">
+      <div class="article-content">
         <h2>Select Your Specific Pipe Problem</h2>
         <div class="service-grid" style="margin: 24px 0;">
           ${servicesData.map(s => `
@@ -470,19 +500,51 @@ function compileServices() {
           "serviceType": "Emergency Pipe Repair",
           "provider": { "@id": `${BASE_URL}/#organization` },
           "areaServed": { "@type": "Country", "name": "United States" },
-          "description": pillar.summary
+          "description": pillar.summary,
+          "image": `${BASE_URL}${pillar.heroImage}`
         }
       ]
     };
 
     const pillarContent = `
-      <div class="container article-layout">
+      <section class="hero-section">
+        <div class="container">
+          <div class="hero-grid">
+            <div>
+              <div class="hero-status-pill">
+                <span class="pulse-indicator"><span class="pulse-ping"></span><span class="pulse-core"></span></span>
+                <span>24/7 Priority Emergency Service Active</span>
+              </div>
+              <div class="hero-eyebrow">
+                <span>💧 ${pillar.urgency.split('(')[0].trim().toUpperCase()}</span>
+              </div>
+              <h1 class="hero-title">${pillar.h1}</h1>
+              <p class="hero-subtitle">${pillar.summary}</p>
+              <div class="hero-cta-group">
+                <a href="${PHONE_TEL}" class="btn-emergency-call">📞 Call Now</a>
+              </div>
+            </div>
+            <div>
+              <div class="hero-media">
+                <div class="hero-card-frame">
+                  <img src="${pillar.heroImage}" alt="${pillar.heroImageAlt}" class="hero-main-img" width="900" height="650" loading="eager" fetchpriority="high">
+                  <div class="hero-img-gradient" aria-hidden="true"></div>
+                  <div class="hero-same-day-badge">
+                    <span class="badge-icon">⚡</span>
+                    <span>24/7 Rapid Response</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="container article-layout" style="padding-top: var(--space-8);">
         <div class="article-content">
-          <h1>${pillar.h1}</h1>
           <div class="callout-box">
             <p><strong>Emergency Dispatch:</strong> Standing water or frozen pipes? Call <a href="${PHONE_TEL}" style="font-weight: 800; color: #b91c1c;">${PHONE_DISPLAY}</a> now to route an emergency plumber.</p>
           </div>
-          <p>${pillar.summary}</p>
 
           <h2>First Hour Emergency Protocol</h2>
           <ol>
@@ -547,13 +609,44 @@ function compileServices() {
       const childCanonical = `${BASE_URL}/services/${ch.slug}/`;
 
       const childContent = `
-        <div class="container article-layout">
+        <section class="hero-section">
+          <div class="container">
+            <div class="hero-grid">
+              <div>
+                <div class="hero-status-pill">
+                  <span class="pulse-indicator"><span class="pulse-ping"></span><span class="pulse-core"></span></span>
+                  <span>24/7 Priority Emergency Service Active</span>
+                </div>
+                <div class="hero-eyebrow">
+                  <span>💧 PART OF ${pillar.title.toUpperCase()}</span>
+                </div>
+                <h1 class="hero-title">${ch.h1}</h1>
+                <p class="hero-subtitle">${ch.summary}</p>
+                <div class="hero-cta-group">
+                  <a href="${PHONE_TEL}" class="btn-emergency-call">📞 Call Now</a>
+                </div>
+              </div>
+              <div>
+                <div class="hero-media">
+                  <div class="hero-card-frame">
+                    <img src="${ch.heroImage}" alt="${ch.heroImageAlt}" class="hero-main-img" width="900" height="650" loading="eager" fetchpriority="high">
+                    <div class="hero-img-gradient" aria-hidden="true"></div>
+                    <div class="hero-same-day-badge">
+                      <span class="badge-icon">⚡</span>
+                      <span>24/7 Rapid Response</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <div class="container article-layout" style="padding-top: var(--space-8);">
           <div class="article-content">
-            <h1>${ch.h1}</h1>
             <div class="callout-box">
               <p>Part of our <a href="/services/${pillar.slug}/">${pillar.title}</a> solutions. For immediate dispatch call <a href="${PHONE_TEL}">${PHONE_DISPLAY}</a>.</p>
             </div>
-            <p>${ch.summary}</p>
 
             <h2>Professional Repair Methods</h2>
             <ul>
@@ -581,7 +674,8 @@ function compileServices() {
               "@type": "Service",
               "name": ch.title,
               "provider": { "@id": `${BASE_URL}/#organization` },
-              "description": ch.summary
+              "description": ch.summary,
+              "image": `${BASE_URL}${ch.heroImage}`
             }
           ]
         },

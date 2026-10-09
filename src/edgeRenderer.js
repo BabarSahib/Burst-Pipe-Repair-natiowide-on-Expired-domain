@@ -945,21 +945,62 @@ function getStatesHubHtml() {
   });
 }
 
+const servicePillarsBySlug = new Map();
+const serviceChildrenBySlug = new Map();
+servicesData.forEach(pillar => {
+  servicePillarsBySlug.set(pillar.slug, pillar);
+  pillar.children.forEach(ch => {
+    serviceChildrenBySlug.set(ch.slug, { child: ch, pillar });
+  });
+});
+
 function getServicesHubHtml() {
   const canonical = `${BASE_URL}/services/`;
   const content = `
-    <div class="container article-layout">
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <div class="hero-status-pill">
+              <span class="pulse-indicator"><span class="pulse-ping"></span><span class="pulse-core"></span></span>
+              <span>24/7 Priority Emergency Service Active</span>
+            </div>
+            <div class="hero-eyebrow">
+              <span>💧 24/7 EMERGENCY BURST PIPE REPAIR</span>
+            </div>
+            <h1 class="hero-title">Professional Pipe Repair & <span class="highlight">Plumbing Services</span><br>24/7 Emergency Dispatch</h1>
+            <p class="hero-subtitle">Connecting homeowners and commercial facilities with specialized, licensed plumbing contractors equipped to handle every type of pressurized pipe failure, freeze rupture, and underground water service leak.</p>
+            <div class="hero-cta-group">
+              <a href="${PHONE_TEL}" class="btn-emergency-call">📞 Call Now</a>
+            </div>
+          </div>
+          <div>
+            <div class="hero-media">
+              <div class="hero-card-frame">
+                <img src="/images/emergency-burst-pipe-repair.jpg" alt="Comprehensive emergency burst pipe repair and rapid plumbing services" class="hero-main-img" width="900" height="650" loading="eager" fetchpriority="high">
+                <div class="hero-img-gradient" aria-hidden="true"></div>
+                <div class="hero-same-day-badge">
+                  <span class="badge-icon">⚡</span>
+                  <span>24/7 Rapid Response</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container article-layout" style="padding-top: var(--space-8);">
       <div class="article-content">
-        <h1>Specialized Burst Pipe & Emergency Plumbing Services</h1>
-        <p>Comprehensive solutions for catastrophic water line ruptures, freezing breaks, and underground supply failures.</p>
+        <h2>Select Your Specific Pipe Problem</h2>
         <div class="service-grid" style="margin: 24px 0;">
           ${servicesData.map(s => `
             <div class="service-card">
-              <h3><a href="/services/${s.slug}/">${s.title}</a></h3>
+              <h3><a href="/services/${s.slug}/" style="color: var(--brand-navy); text-decoration: none;">${s.title}</a></h3>
               <p>${s.summary}</p>
               <div class="service-card-meta">
                 <span>Avg: ${s.priceRange.split('(')[0]}</span>
-                <a href="/services/${s.slug}/">Learn More &rarr;</a>
+                <a href="/services/${s.slug}/">View Pillar &rarr;</a>
               </div>
             </div>
           `).join('')}
@@ -973,6 +1014,202 @@ function getServicesHubHtml() {
     canonical,
     jsonLd: { "@context": "https://schema.org", "@graph": [getOrgSchema()] },
     breadcrumbs: [{ name: "Home", url: "/" }, { name: "Services", url: canonical }],
+    content
+  });
+}
+
+function getServicePillarHtml(pillar) {
+  const canonical = `${BASE_URL}/services/${pillar.slug}/`;
+  const content = `
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <div class="hero-status-pill">
+              <span class="pulse-indicator"><span class="pulse-ping"></span><span class="pulse-core"></span></span>
+              <span>24/7 Priority Emergency Service Active</span>
+            </div>
+            <div class="hero-eyebrow">
+              <span>💧 ${pillar.urgency.split('(')[0].trim().toUpperCase()}</span>
+            </div>
+            <h1 class="hero-title">${pillar.h1}</h1>
+            <p class="hero-subtitle">${pillar.summary}</p>
+            <div class="hero-cta-group">
+              <a href="${PHONE_TEL}" class="btn-emergency-call">📞 Call Now</a>
+            </div>
+          </div>
+          <div>
+            <div class="hero-media">
+              <div class="hero-card-frame">
+                <img src="${pillar.heroImage}" alt="${pillar.heroImageAlt}" class="hero-main-img" width="900" height="650" loading="eager" fetchpriority="high">
+                <div class="hero-img-gradient" aria-hidden="true"></div>
+                <div class="hero-same-day-badge">
+                  <span class="badge-icon">⚡</span>
+                  <span>24/7 Rapid Response</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container article-layout" style="padding-top: var(--space-8);">
+      <div class="article-content">
+        <div class="callout-box">
+          <p><strong>Emergency Dispatch:</strong> Standing water or frozen pipes? Call <a href="${PHONE_TEL}" style="font-weight: 800; color: #b91c1c;">${PHONE_DISPLAY}</a> now to route an emergency plumber.</p>
+        </div>
+
+        <h2>First Hour Emergency Protocol</h2>
+        <ol>
+          ${(pillar.firstHourSteps || [
+            "Shut off main water valve immediately.",
+            "Cut electrical power to wet spaces.",
+            "Open faucets to drain residual line pressure.",
+            "Call 24/7 dispatch at " + PHONE_DISPLAY
+          ]).map(step => `<li>${step}</li>`).join('')}
+        </ol>
+
+        <h2>Specialized Methods & Sub-Services</h2>
+        <div class="service-grid" style="margin: 24px 0;">
+          ${pillar.children.map(ch => `
+            <div class="service-card">
+              <h3><a href="/services/${ch.slug}/" style="color: var(--brand-navy); text-decoration: none;">${ch.title}</a></h3>
+              <p>${ch.summary}</p>
+              <div class="service-card-meta">
+                <span>${ch.priceRange}</span>
+                <a href="/services/${ch.slug}/">Details &rarr;</a>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <h2>Pricing Guidelines & Cost Benchmarks</h2>
+        <p>The estimated price range for this service is <strong>${pillar.priceRange}</strong>. For a detailed cost breakdown by scenario and state, review our dedicated guide: <a href="${pillar.costGuideUrl}">View Full Cost Guide &rarr;</a></p>
+
+        <h2>Repair vs. Full Replacement</h2>
+        <p>${pillar.repairVsReplace || "Isolated punctures can be repaired with sectional splicing, while widespread age corrosion warrants complete line repiping."}</p>
+
+        <h2>Frequently Asked Questions</h2>
+        <div class="faq-list">
+          ${pillar.faqs.map(f => `
+            <div class="faq-item">
+              <div class="faq-question">${f.q}</div>
+              <div class="faq-answer">${f.a}</div>
+            </div>
+          `).join('')}
+        </div>
+      </div>
+    </div>
+  `;
+
+  return renderLayout({
+    title: pillar.metaTitle,
+    metaDesc: pillar.metaDesc,
+    canonical,
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@graph": [
+        getOrgSchema(),
+        {
+          "@type": "Service",
+          "@id": `${canonical}#service`,
+          "name": pillar.title,
+          "serviceType": "Emergency Pipe Repair",
+          "provider": { "@id": `${BASE_URL}/#organization` },
+          "areaServed": { "@type": "Country", "name": "United States" },
+          "description": pillar.summary,
+          "image": `${BASE_URL}${pillar.heroImage}`
+        }
+      ]
+    },
+    breadcrumbs: [
+      { name: "Home", url: "/" },
+      { name: "Services", url: "/services/" },
+      { name: pillar.title, url: canonical }
+    ],
+    content
+  });
+}
+
+function getServiceChildHtml(ch, pillar) {
+  const canonical = `${BASE_URL}/services/${ch.slug}/`;
+  const content = `
+    <section class="hero-section">
+      <div class="container">
+        <div class="hero-grid">
+          <div>
+            <div class="hero-status-pill">
+              <span class="pulse-indicator"><span class="pulse-ping"></span><span class="pulse-core"></span></span>
+              <span>24/7 Priority Emergency Service Active</span>
+            </div>
+            <div class="hero-eyebrow">
+              <span>💧 PART OF ${pillar.title.toUpperCase()}</span>
+            </div>
+            <h1 class="hero-title">${ch.h1}</h1>
+            <p class="hero-subtitle">${ch.summary}</p>
+            <div class="hero-cta-group">
+              <a href="${PHONE_TEL}" class="btn-emergency-call">📞 Call Now</a>
+            </div>
+          </div>
+          <div>
+            <div class="hero-media">
+              <div class="hero-card-frame">
+                <img src="${ch.heroImage}" alt="${ch.heroImageAlt}" class="hero-main-img" width="900" height="650" loading="eager" fetchpriority="high">
+                <div class="hero-img-gradient" aria-hidden="true"></div>
+                <div class="hero-same-day-badge">
+                  <span class="badge-icon">⚡</span>
+                  <span>24/7 Rapid Response</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="container article-layout" style="padding-top: var(--space-8);">
+      <div class="article-content">
+        <div class="callout-box">
+          <p>Part of our <a href="/services/${pillar.slug}/">${pillar.title}</a> solutions. For immediate dispatch call <a href="${PHONE_TEL}">${PHONE_DISPLAY}</a>.</p>
+        </div>
+
+        <h2>Professional Repair Methods</h2>
+        <ul>
+          ${(ch.methods || []).map(m => `<li>${m}</li>`).join('')}
+        </ul>
+
+        <h2>Estimated Repair Pricing</h2>
+        <p>Typical investment for this specific repair: <strong>${ch.priceRange}</strong>. For national averages and cost-of-living adjustments, visit our <a href="${pillar.costGuideUrl}">detailed pricing guide</a>.</p>
+
+        <h2>When to Call a Professional</h2>
+        <p>Do not attempt makeshift epoxy putty or duct tape fixes on pressurized water lines. Household water pressure (50 to 75 PSI) will rupture temporary patches, causing catastrophic flooding. Contact a licensed technician to install code-compliant fittings.</p>
+      </div>
+    </div>
+  `;
+
+  return renderLayout({
+    title: ch.metaTitle,
+    metaDesc: ch.metaDesc,
+    canonical,
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@graph": [
+        getOrgSchema(),
+        {
+          "@type": "Service",
+          "name": ch.title,
+          "provider": { "@id": `${BASE_URL}/#organization` },
+          "description": ch.summary,
+          "image": `${BASE_URL}${ch.heroImage}`
+        }
+      ]
+    },
+    breadcrumbs: [
+      { name: "Home", url: "/" },
+      { name: "Services", url: "/services/" },
+      { name: ch.title, url: canonical }
+    ],
     content
   });
 }
@@ -1130,6 +1367,16 @@ function handleEdgeRoute(pathname) {
   // Hubs
   if (p === '/states') return { status: 200, contentType: 'text/html; charset=utf-8', body: getStatesHubHtml() };
   if (p === '/services') return { status: 200, contentType: 'text/html; charset=utf-8', body: getServicesHubHtml() };
+  if (p.startsWith('/services/')) {
+    const sSlug = p.replace('/services/', '');
+    if (servicePillarsBySlug.has(sSlug)) {
+      return { status: 200, contentType: 'text/html; charset=utf-8', body: getServicePillarHtml(servicePillarsBySlug.get(sSlug)) };
+    }
+    if (serviceChildrenBySlug.has(sSlug)) {
+      const { child, pillar } = serviceChildrenBySlug.get(sSlug);
+      return { status: 200, contentType: 'text/html; charset=utf-8', body: getServiceChildHtml(child, pillar) };
+    }
+  }
   if (p === '/plumbing-costs') return { status: 200, contentType: 'text/html; charset=utf-8', body: getCostsHubHtml() };
   if (p === '/resources') return { status: 200, contentType: 'text/html; charset=utf-8', body: getResourcesHubHtml() };
 
