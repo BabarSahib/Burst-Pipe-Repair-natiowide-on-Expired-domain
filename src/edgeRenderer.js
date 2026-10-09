@@ -77,17 +77,11 @@ ${JSON.stringify(jsonLd, null, 2)}
           <li><a href="/resources/">Emergency Guides</a></li>
           <li><a href="/about/">About</a></li>
         </ul>
-        <div class="header-right-group">
-          <a href="${PHONE_TEL}" class="header-cta-phone">
-            <span class="pulse-dot"></span>
-            <span>${PHONE_DISPLAY}</span>
-          </a>
-          <button class="mobile-menu-toggle" id="mobileMenuBtn" aria-label="Toggle navigation menu" onclick="toggleMobileNav()">
-            <span></span>
-            <span></span>
-            <span></span>
-          </button>
-        </div>
+        <button class="mobile-menu-toggle" id="mobileMenuBtn" aria-label="Toggle navigation menu" onclick="toggleMobileNav()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
       </div>
       <div class="mobile-nav-drawer" id="mobileNavDrawer">
         <ul class="mobile-nav-links">
@@ -98,7 +92,6 @@ ${JSON.stringify(jsonLd, null, 2)}
           <li><a href="/about/">About Us</a></li>
           <li><a href="/contact/">Contact Dispatch</a></li>
         </ul>
-        <a href="${PHONE_TEL}" class="mobile-drawer-call">📞 CALL 24/7: ${PHONE_DISPLAY}</a>
       </div>
     </div>
   </header>
