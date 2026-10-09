@@ -231,7 +231,7 @@ function compileHomepage() {
             <h1 class="hero-title">Burst Pipe Repair & <span class="highlight">Plumbing Services</span><br>24/7 Emergency Service</h1>
             <p class="hero-subtitle">Water gushing through your ceiling, walls, or basement? 24/7 Pipe Rescue connects you with vetted, licensed local plumbers in under 60 seconds.</p>
             <div class="hero-cta-group">
-              <a href="${PHONE_TEL}" class="btn-emergency-call">📞 CALL NOW: ${PHONE_DISPLAY}</a>
+              <a href="${PHONE_TEL}" class="btn-emergency-call">📞 Call Now</a>
             </div>
             <p><a href="/resources/how-to-shut-off-main-water-valve/" class="hero-shutoff-link">⚠️ Water running right now? Learn how to shut off your main valve immediately &rarr;</a></p>
           </div>
@@ -654,7 +654,7 @@ function compileStates() {
               <h1 class="hero-title">Burst Pipe Repair in <span class="highlight">${st.name}</span><br>24/7 Emergency Service</h1>
               <p class="hero-subtitle">Connecting ${st.name} homeowners and commercial property managers with vetted, state-licensed emergency plumbers. 24/7 dispatch hotline.</p>
               <div class="hero-cta-group">
-                <a href="${PHONE_TEL}" class="btn-emergency-call">📞 CALL ${st.name.toUpperCase()} DISPATCH: ${PHONE_DISPLAY}</a>
+                <a href="${PHONE_TEL}" class="btn-emergency-call">📞 Call Now</a>
               </div>
             </div>
             <div>
@@ -959,7 +959,7 @@ function compileAllCities() {
                 <h1 class="hero-title">Burst Pipe Repair in <span class="highlight">${cityName}, ${st.name}</span><br>24/7 Emergency Service</h1>
                 <p class="hero-subtitle">Rapid emergency plumber dispatch for burst pipes, slab leaks, and frozen water lines across ${cityName} and surrounding ${st.abbr} communities.</p>
                 <div class="hero-cta-group">
-                  <a href="${PHONE_TEL}" class="btn-emergency-call">📞 CALL ${cityName.toUpperCase()} PLUMBER: ${PHONE_DISPLAY}</a>
+                  <a href="${PHONE_TEL}" class="btn-emergency-call">📞 Call Now</a>
                 </div>
               </div>
               <div>
@@ -1560,7 +1560,7 @@ function compileLegal() {
               <div style="font-size: 0.75rem; color: #64748b; margin-top: 4px;">Toll-Free Across All 50 States & DC</div>
             </div>
             <p style="font-size: 0.875rem; color: #334155; line-height: 1.5; margin-bottom: 16px;">Water gushing through floors or ceilings? Call our 24/7 telephone dispatch hotline immediately. Operators connect you directly to vetted licensed plumbing contractors in your local area code.</p>
-            <a href="${PHONE_TEL}" class="btn-emergency-call" style="width: 100%; text-align: center; display: block;">📞 CALL DISPATCH: ${PHONE_DISPLAY}</a>
+            <a href="${PHONE_TEL}" class="btn-emergency-call" style="width: 100%; text-align: center; display: block;">📞 Call Now</a>
           </div>
         </div>
       `;
