@@ -514,7 +514,7 @@ function getHomepageHtml() {
 
   return renderLayout({
     title: "Emergency Burst Pipe Repair Nationwide | 24/7 Plumber Dispatch",
-    metaDesc: "Water gushing from a burst pipe? Call (855) 499-4130 now for 24/7 licensed emergency plumber dispatch nationwide. Rapid 45-90 min response across all 50 states.",
+    metaDesc: "Water pipe burst? 24/7 Pipe Rescue connects you with licensed emergency plumbers nationwide. Fast 24/7 dispatch & upfront quotes. Call (855) 499-4130.",
     canonical,
     jsonLd,
     breadcrumbs: [],

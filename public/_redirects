@@ -1,0 +1,5 @@
+# Cloudflare Redirect Rules for 24/7 Pipe Rescue
+# 1. Apex Domain & Canonical HTTPS enforcement
+# 2. Legacy /states/ subdirectory redirect
+/states/:state/:city /:state/:city/ 301
+/states/:state /:state/ 301

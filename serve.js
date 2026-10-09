@@ -29,6 +29,13 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // 301 Redirect non-trailing slash for directory routes
+  if (rawUrl !== '/' && !rawUrl.endsWith('/') && !path.extname(rawUrl)) {
+    res.writeHead(301, { 'Location': rawUrl + '/' });
+    res.end();
+    return;
+  }
+
   let parsedUrl = rawUrl;
   if (parsedUrl.endsWith('/')) {
     parsedUrl += 'index.html';
