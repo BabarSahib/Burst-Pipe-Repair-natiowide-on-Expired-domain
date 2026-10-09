@@ -35,6 +35,28 @@ function ensureDirSync(dirPath) {
   }
 }
 
+const STATES_DROPDOWN_HTML = `
+  <li class="has-dropdown nav-item-dropdown">
+    <a href="/states/" class="nav-dropdown-trigger" id="statesDropdownTrigger" aria-expanded="false" aria-haspopup="true">
+      <span>Service Areas</span>
+      <svg class="dropdown-chevron" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+        <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
+      </svg>
+    </a>
+    <div class="states-mega-dropdown" id="statesDropdownMenu" role="menu" aria-labelledby="statesDropdownTrigger">
+      <div class="states-dropdown-grid">
+        ${statesData.map(st => `<a href="/${st.slug}/" class="state-drop-link" role="menuitem">${st.name}</a>`).join('')}
+      </div>
+      <div class="states-dropdown-footer">
+        <span class="states-dropdown-footer-info">Nationwide 24/7 Plumber Dispatch</span>
+        <a href="/states/" class="states-dropdown-all-link">Browse All 50 States Hub &rarr;</a>
+      </div>
+    </div>
+  </li>
+`;
+
+const MOBILE_STATES_HTML = statesData.map(st => `<a href="/${st.slug}/" class="mobile-state-link">${st.name}</a>`).join('');
+
 // Global Layout Wrapper
 function renderLayout({ title, metaDesc, canonical, jsonLd, breadcrumbs, content }) {
   const breadcrumbHtml = breadcrumbs && breadcrumbs.length > 0 ? `
@@ -83,7 +105,7 @@ ${JSON.stringify(jsonLd, null, 2)}
         </a>
         <ul class="nav-links">
           <li><a href="/services/">Services</a></li>
-          <li><a href="/states/">Service Areas</a></li>
+          ${STATES_DROPDOWN_HTML}
           <li><a href="/plumbing-costs/">Pricing</a></li>
           <li><a href="/resources/">Emergency Guides</a></li>
           <li><a href="/about/">About</a></li>
@@ -97,7 +119,19 @@ ${JSON.stringify(jsonLd, null, 2)}
       <div class="mobile-nav-drawer" id="mobileNavDrawer">
         <ul class="mobile-nav-links">
           <li><a href="/services/">Services</a></li>
-          <li><a href="/states/">Service Areas</a></li>
+          <li class="mobile-has-sub">
+            <div class="mobile-sub-trigger-row">
+              <a href="/states/">Service Areas</a>
+              <button type="button" class="mobile-sub-toggle-btn" id="mobileStatesToggleBtn" aria-label="Toggle States List" onclick="toggleMobileStates(event)">
+                <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16"><path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" /></svg>
+              </button>
+            </div>
+            <div class="mobile-sub-drawer" id="mobileStatesSubDrawer">
+              <div class="mobile-states-grid">
+                ${MOBILE_STATES_HTML}
+              </div>
+            </div>
+          </li>
           <li><a href="/plumbing-costs/">Pricing</a></li>
           <li><a href="/resources/">Emergency Guides</a></li>
           <li><a href="/about/">About Us</a></li>
@@ -174,6 +208,13 @@ ${JSON.stringify(jsonLd, null, 2)}
     function toggleMobileNav() {
       var d = document.getElementById('mobileNavDrawer');
       if (d) d.classList.toggle('active');
+    }
+    function toggleMobileStates(e) {
+      if (e) { e.preventDefault(); e.stopPropagation(); }
+      var sub = document.getElementById('mobileStatesSubDrawer');
+      var btn = document.getElementById('mobileStatesToggleBtn');
+      if (sub) sub.classList.toggle('active');
+      if (btn) btn.classList.toggle('active');
     }
   </script>
 </body>

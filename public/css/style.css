@@ -190,6 +190,152 @@ img {
   color: #38bdf8;
 }
 
+/* Service Areas States Mega Dropdown */
+.nav-links li.has-dropdown {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.nav-dropdown-trigger {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 5px;
+  color: #e2e8f0;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 10px 0;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.dropdown-chevron {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s ease;
+  color: #94a3b8;
+  flex-shrink: 0;
+}
+
+.has-dropdown:hover .nav-dropdown-trigger,
+.has-dropdown:hover .dropdown-chevron,
+.has-dropdown.open .nav-dropdown-trigger,
+.has-dropdown.open .dropdown-chevron {
+  color: #38bdf8;
+}
+
+.has-dropdown:hover .dropdown-chevron,
+.has-dropdown.open .dropdown-chevron {
+  transform: rotate(180deg);
+}
+
+.states-mega-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  width: 760px;
+  max-width: 92vw;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(0, 0, 0, 0.08);
+  padding: 22px 24px 18px;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
+  z-index: 1200;
+}
+
+/* Invisible hover bridge */
+.states-mega-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -14px;
+  left: 0;
+  right: 0;
+  height: 14px;
+}
+
+.has-dropdown:hover .states-mega-dropdown,
+.has-dropdown:focus-within .states-mega-dropdown,
+.has-dropdown.open .states-mega-dropdown {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.states-dropdown-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  column-gap: 20px;
+  row-gap: 8px;
+}
+
+.state-drop-link {
+  color: #1e293b !important;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  text-decoration: none !important;
+  padding: 4px 8px;
+  border-radius: 6px;
+  transition: all 0.12s ease;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.3;
+}
+
+.state-drop-link:hover {
+  background-color: #f1f5f9;
+  color: #ef4444 !important;
+  transform: translateX(2px);
+}
+
+.states-dropdown-footer {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.states-dropdown-footer-info {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.states-dropdown-all-link {
+  color: #0284c7 !important;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  text-decoration: none !important;
+  transition: color 0.15s ease;
+}
+
+.states-dropdown-all-link:hover {
+  color: #0369a1 !important;
+  text-decoration: underline !important;
+}
+
+@media (min-width: 900px) and (max-width: 1120px) {
+  .states-mega-dropdown {
+    width: 680px;
+    left: -140px;
+    transform: translateY(8px);
+  }
+  .has-dropdown:hover .states-mega-dropdown,
+  .has-dropdown:focus-within .states-mega-dropdown,
+  .has-dropdown.open .states-mega-dropdown {
+    transform: translateY(0);
+  }
+}
+
 .mobile-menu-toggle {
   display: flex;
   flex-direction: column;
@@ -258,6 +404,77 @@ img {
 
 .mobile-nav-links a:hover {
   color: #38bdf8;
+}
+
+/* Mobile States Accordion */
+.mobile-has-sub {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mobile-sub-trigger-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.mobile-sub-toggle-btn {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 6px;
+  color: #38bdf8;
+  padding: 6px 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.mobile-sub-toggle-btn svg {
+  transition: transform 0.2s ease;
+}
+
+.mobile-sub-toggle-btn.active svg {
+  transform: rotate(180deg);
+}
+
+.mobile-sub-drawer {
+  display: none;
+  max-height: 280px;
+  overflow-y: auto;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 10px;
+  margin: 6px 0 10px;
+}
+
+.mobile-sub-drawer.active {
+  display: block;
+}
+
+.mobile-states-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px 8px;
+}
+
+.mobile-state-link {
+  color: #cbd5e1 !important;
+  font-size: 0.8125rem !important;
+  padding: 5px 6px !important;
+  text-decoration: none !important;
+  border-radius: 4px;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mobile-state-link:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #38bdf8 !important;
 }
 
 /* Breadcrumbs */
