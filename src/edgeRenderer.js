@@ -324,6 +324,27 @@ const legalPagesList = [
 ];
 const legalBySlug = new Map(legalPagesList.map(l => [l.slug, l]));
 
+function renderServiceCard(s, extraMeta = '', linkText = 'Learn More') {
+  return `
+    <div class="service-card">
+      <div class="service-card-img-wrap">
+        <img src="${s.heroImage || '/images/emergency-burst-pipe-repair.jpg'}" alt="${s.heroImageAlt || s.title}" class="service-card-img" width="400" height="240" loading="lazy">
+      </div>
+      <div class="service-card-body">
+        <div class="service-card-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+        </div>
+        <h3><a href="/services/${s.slug}/">${s.title}</a></h3>
+        <p>${s.summary.length > 135 ? s.summary.substring(0, 135) + '...' : s.summary}</p>
+        <div class="service-card-footer">
+          <span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">${extraMeta || (s.priceRange ? 'Estimated: ' + s.priceRange.split('(')[0] : '24/7 Available')}</span>
+          <a href="/services/${s.slug}/" class="service-card-link">${linkText} &rarr;</a>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
 // 1. Homepage
 function getHomepageHtml() {
   const canonical = `${BASE_URL}/`;
@@ -445,18 +466,7 @@ function getHomepageHtml() {
           <p class="section-subtitle">Comprehensive solutions for supply line ruptures, freezing breaks, and underground water mains.</p>
         </div>
         <div class="service-grid">
-          ${servicesData.map(s => `
-            <div class="service-card">
-              <div>
-                <h3><a href="/services/${s.slug}/" style="color: var(--brand-navy); text-decoration: none;">${s.title}</a></h3>
-                <p>${s.summary}</p>
-              </div>
-              <div class="service-card-meta">
-                <span>Estimated: ${s.priceRange.split('(')[0]}</span>
-                <a href="/services/${s.slug}/">View Service &rarr;</a>
-              </div>
-            </div>
-          `).join('')}
+          ${servicesData.map(s => renderServiceCard(s, `Estimated: ${s.priceRange.split('(')[0]}`, 'Learn More')).join('')}
         </div>
       </div>
     </section>
@@ -741,16 +751,24 @@ function getCityHtml(stSlug, citySlug) {
 
         <h2>Services Available in ${cityName}</h2>
         <div class="service-grid" style="margin: 20px 0;">
-          ${servicesData.map(s => {
-            const serviceUrl = `/services/${s.slug}/`;
-            return `
+          ${servicesData.map(s => `
             <div class="service-card">
-              <h3><a href="${serviceUrl}">${s.title} in ${cityName}</a></h3>
-              <p>${s.summary}</p>
-              <a href="${serviceUrl}">View Service Details &rarr;</a>
+              <div class="service-card-img-wrap">
+                <img src="${s.heroImage || '/images/emergency-burst-pipe-repair.jpg'}" alt="${s.title} in ${cityName}" class="service-card-img" width="400" height="240" loading="lazy">
+              </div>
+              <div class="service-card-body">
+                <div class="service-card-icon">
+                  <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+                </div>
+                <h3><a href="/services/${s.slug}/">${s.title} in ${cityName}</a></h3>
+                <p>${s.summary.length > 135 ? s.summary.substring(0, 135) + '...' : s.summary}</p>
+                <div class="service-card-footer">
+                  <span style="font-size: 0.8rem; color: #64748b; font-weight: 600;">24/7 Local Dispatch</span>
+                  <a href="/services/${s.slug}/" class="service-card-link">Learn More &rarr;</a>
+                </div>
+              </div>
             </div>
-          `;
-          }).join('')}
+          `).join('')}
         </div>
 
         <h2>Emergency Pipe Repair & Prevention Guides (${cityName} Homeowner Resource Center)</h2>
@@ -994,16 +1012,7 @@ function getServicesHubHtml() {
       <div class="article-content">
         <h2>Select Your Specific Pipe Problem</h2>
         <div class="service-grid" style="margin: 24px 0;">
-          ${servicesData.map(s => `
-            <div class="service-card">
-              <h3><a href="/services/${s.slug}/" style="color: var(--brand-navy); text-decoration: none;">${s.title}</a></h3>
-              <p>${s.summary}</p>
-              <div class="service-card-meta">
-                <span>Avg: ${s.priceRange.split('(')[0]}</span>
-                <a href="/services/${s.slug}/">View Pillar &rarr;</a>
-              </div>
-            </div>
-          `).join('')}
+          ${servicesData.map(s => renderServiceCard(s, `Avg: ${s.priceRange.split('(')[0]}`, 'Learn More')).join('')}
         </div>
       </div>
     </div>
@@ -1072,16 +1081,7 @@ function getServicePillarHtml(pillar) {
 
         <h2>Specialized Methods & Sub-Services</h2>
         <div class="service-grid" style="margin: 24px 0;">
-          ${pillar.children.map(ch => `
-            <div class="service-card">
-              <h3><a href="/services/${ch.slug}/" style="color: var(--brand-navy); text-decoration: none;">${ch.title}</a></h3>
-              <p>${ch.summary}</p>
-              <div class="service-card-meta">
-                <span>${ch.priceRange}</span>
-                <a href="/services/${ch.slug}/">Details &rarr;</a>
-              </div>
-            </div>
-          `).join('')}
+          ${pillar.children.map(ch => renderServiceCard(ch, ch.priceRange, 'Learn More')).join('')}
         </div>
 
         <h2>Pricing Guidelines & Cost Benchmarks</h2>
