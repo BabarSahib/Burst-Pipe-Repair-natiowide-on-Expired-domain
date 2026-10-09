@@ -112,45 +112,64 @@ img {
   padding-right: var(--space-4);
 }
 
-/* Header & Navigation */
+/* Header & Navigation (FurnaceRepairPros Reference Model) */
 .site-header {
-  background: var(--brand-navy);
-  color: var(--text-inverse);
+  background: #ffffff;
+  color: var(--brand-navy);
   position: sticky;
   top: 0;
-  z-index: 100;
-  border-bottom: 2px solid var(--emergency-red);
+  z-index: 1000;
+  border-bottom: 1px solid var(--border-light);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .header-inner {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: var(--space-3) 0;
+  padding: 8px 0;
+  min-height: 56px;
+  position: relative;
 }
 
 .site-logo {
-  font-size: 1.35rem;
-  font-weight: 800;
-  color: var(--text-inverse);
-  text-decoration: none;
-  display: flex;
-  flex-direction: column;
-  letter-spacing: -0.5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none !important;
 }
 
-.site-logo span.badge {
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: #38bdf8;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
+.logo-icon-box {
+  width: 36px;
+  height: 36px;
+  background: #0f172a;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  flex-shrink: 0;
+  box-shadow: 0 2px 5px rgba(15, 23, 42, 0.2);
+}
+
+.logo-icon-box svg {
+  width: 20px;
+  height: 20px;
+}
+
+.logo-title {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.4px;
+  line-height: 1;
+  white-space: nowrap;
 }
 
 .nav-links {
   display: none;
   list-style: none;
-  gap: var(--space-6);
+  gap: 24px;
   align-items: center;
 }
 
@@ -161,34 +180,47 @@ img {
 }
 
 .nav-links a {
-  color: #f1f5f9;
+  color: #334155;
   text-decoration: none;
-  font-size: var(--font-size-sm);
+  font-size: 0.9375rem;
   font-weight: 600;
+  transition: color 0.15s ease;
 }
 
 .nav-links a:hover {
-  color: #38bdf8;
+  color: var(--emergency-red);
+}
+
+.header-right-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .header-cta-phone {
-  display: flex;
+  display: none;
   align-items: center;
-  gap: var(--space-2);
+  gap: 8px;
   background: var(--emergency-red);
-  color: var(--text-inverse);
-  padding: 8px 16px;
+  color: #ffffff !important;
+  padding: 8px 18px;
   border-radius: var(--radius-full);
   font-weight: 800;
-  font-size: 0.95rem;
-  text-decoration: none;
-  box-shadow: 0 0 12px rgba(220, 38, 38, 0.4);
-  min-height: 44px;
+  font-size: 0.9375rem;
+  text-decoration: none !important;
+  box-shadow: 0 4px 10px rgba(220, 38, 38, 0.35);
+  transition: transform 0.15s ease, background 0.15s ease;
 }
 
 .header-cta-phone:hover {
   background: var(--emergency-red-hover);
-  color: var(--text-inverse);
+  transform: translateY(-1px);
+}
+
+@media (min-width: 769px) {
+  .header-cta-phone {
+    display: inline-flex;
+  }
 }
 
 .pulse-dot {
@@ -203,6 +235,88 @@ img {
   0% { transform: scale(0.95); opacity: 0.8; }
   50% { transform: scale(1.3); opacity: 1; }
   100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+.mobile-menu-toggle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 4.5px;
+  width: 38px;
+  height: 38px;
+  background: transparent;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  cursor: pointer;
+  padding: 6px;
+}
+
+@media (min-width: 900px) {
+  .mobile-menu-toggle {
+    display: none;
+  }
+}
+
+.mobile-menu-toggle span {
+  display: block;
+  width: 20px;
+  height: 2.2px;
+  background: #0f172a;
+  border-radius: 2px;
+  transition: all 0.2s ease;
+}
+
+/* Mobile Nav Drawer */
+.mobile-nav-drawer {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-bottom: 2px solid var(--emergency-red);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  padding: 16px 20px 24px;
+}
+
+.mobile-nav-drawer.active {
+  display: block;
+}
+
+.mobile-nav-links {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+}
+
+.mobile-nav-links li {
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.mobile-nav-links a {
+  display: block;
+  padding: 12px 4px;
+  color: #0f172a;
+  font-weight: 700;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.mobile-nav-links a:hover {
+  color: var(--emergency-red);
+}
+
+.mobile-drawer-call {
+  display: block;
+  text-align: center;
+  background: var(--emergency-red);
+  color: #ffffff !important;
+  font-weight: 800;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  text-decoration: none !important;
+  font-size: 1.05rem;
 }
 
 /* Breadcrumbs */
@@ -259,6 +373,75 @@ img {
   .hero-grid {
     grid-template-columns: 1.15fr 0.85fr;
   }
+}
+
+/* Hero 2-Pill Badges (FurnaceRepairPros Reference Model) */
+.hero-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(220, 38, 38, 0.12);
+  border: 1px solid rgba(220, 38, 38, 0.35);
+  border-radius: 50px;
+  padding: 6px 14px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  color: #fca5a5;
+  margin-bottom: 10px;
+  width: fit-content;
+}
+
+.pulse-indicator {
+  position: relative;
+  display: inline-flex;
+  width: 8px;
+  height: 8px;
+}
+
+.pulse-ping {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background-color: #ef4444;
+  animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+  opacity: 0.75;
+}
+
+.pulse-core {
+  position: relative;
+  display: inline-flex;
+  border-radius: 50%;
+  width: 8px;
+  height: 8px;
+  background-color: #ef4444;
+}
+
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2);
+    opacity: 0;
+  }
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 50px;
+  padding: 6px 16px;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #e2e8f0;
+  margin-bottom: 14px;
+  width: fit-content;
+}
+
+.hero-title .highlight {
+  color: #ef4444;
 }
 
 .hero-tag {

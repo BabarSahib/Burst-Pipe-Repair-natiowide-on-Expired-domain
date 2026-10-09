@@ -1,4 +1,4 @@
-// Hardus Plumbing - Complete Production Static Site Generator
+// 24/7 Pipe Rescue - Complete Production Static Site Generator
 // Compiles 100% crawlable semantic HTML with JSON-LD graphs, split sitemaps & robots.txt
 
 const fs = require('fs');
@@ -65,7 +65,7 @@ function renderLayout({ title, metaDesc, canonical, jsonLd, breadcrumbs, content
   <meta property="og:description" content="${metaDesc}">
   <meta property="og:url" content="${canonical}">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Hardus Plumbing">
+  <meta property="og:site_name" content="24/7 Pipe Rescue">
   <link rel="stylesheet" href="/css/style.css">
   <script type="application/ld+json">
 ${JSON.stringify(jsonLd, null, 2)}
@@ -76,8 +76,10 @@ ${JSON.stringify(jsonLd, null, 2)}
     <div class="container">
       <div class="header-inner">
         <a href="/" class="site-logo">
-          HARDUS PLUMBING
-          <span class="badge">24/7 Burst Pipe Referral Network</span>
+          <div class="logo-icon-box">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/></svg>
+          </div>
+          <span class="logo-title">24/7 Pipe Rescue</span>
         </a>
         <ul class="nav-links">
           <li><a href="/services/">Services</a></li>
@@ -86,10 +88,28 @@ ${JSON.stringify(jsonLd, null, 2)}
           <li><a href="/resources/">Emergency Guides</a></li>
           <li><a href="/about/">About</a></li>
         </ul>
-        <a href="${PHONE_TEL}" class="header-cta-phone">
-          <span class="pulse-dot"></span>
-          <span>${PHONE_DISPLAY}</span>
-        </a>
+        <div class="header-right-group">
+          <a href="${PHONE_TEL}" class="header-cta-phone">
+            <span class="pulse-dot"></span>
+            <span>${PHONE_DISPLAY}</span>
+          </a>
+          <button class="mobile-menu-toggle" id="mobileMenuBtn" aria-label="Toggle navigation menu" onclick="toggleMobileNav()">
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+      <div class="mobile-nav-drawer" id="mobileNavDrawer">
+        <ul class="mobile-nav-links">
+          <li><a href="/services/">Services</a></li>
+          <li><a href="/states/">Service Areas</a></li>
+          <li><a href="/plumbing-costs/">Pricing</a></li>
+          <li><a href="/resources/">Emergency Guides</a></li>
+          <li><a href="/about/">About Us</a></li>
+          <li><a href="/contact/">Contact Dispatch</a></li>
+        </ul>
+        <a href="${PHONE_TEL}" class="mobile-drawer-call">📞 CALL 24/7: ${PHONE_DISPLAY}</a>
       </div>
     </div>
   </header>
@@ -104,7 +124,7 @@ ${JSON.stringify(jsonLd, null, 2)}
     <div class="container">
       <div class="footer-grid">
         <div class="footer-col">
-          <h4>Hardus Plumbing</h4>
+          <h4>24/7 Pipe Rescue</h4>
           <p style="margin-bottom: 12px; line-height: 1.5;">Nationwide 24/7 emergency burst pipe referral network connecting homeowners with vetted, licensed local plumbers.</p>
           <p style="font-weight: 700; color: #ffffff;">24/7 Dispatch Hotline:</p>
           <p><a href="${PHONE_TEL}" style="font-size: 1.1rem; color: #f87171; font-weight: 800; text-decoration: none;">${PHONE_DISPLAY}</a></p>
@@ -142,11 +162,11 @@ ${JSON.stringify(jsonLd, null, 2)}
       </div>
 
       <div class="referral-disclaimer-box">
-        <strong>Mandatory Referral Network Disclosure:</strong> Hardus Plumbing (hardusplumbing.com) is an independent referral network connecting consumers with licensed and insured plumbing contractors. We are not a licensed plumbing contractor and do not perform direct repair or contracting work. All technicians dispatched are independent local operators who verify their own state licensing and insurance credentials. Calls may be recorded for quality assurance.
+        <strong>Mandatory Referral Network Disclosure:</strong> 24/7 Pipe Rescue (hardusplumbing.com) is an independent referral network connecting consumers with licensed and insured plumbing contractors. We are not a licensed plumbing contractor and do not perform direct repair or contracting work. All technicians dispatched are independent local operators who verify their own state licensing and insurance credentials. Calls may be recorded for quality assurance.
       </div>
 
       <div class="footer-bottom">
-        <div>&copy; 2026 Hardus Plumbing. All Rights Reserved.</div>
+        <div>&copy; 2026 24/7 Pipe Rescue. All Rights Reserved.</div>
         <div>Emergency Plumbing Referral Network | United States</div>
       </div>
     </div>
@@ -157,6 +177,12 @@ ${JSON.stringify(jsonLd, null, 2)}
       <span>📞 CALL NOW: ${PHONE_DISPLAY}</span>
     </a>
   </div>
+  <script>
+    function toggleMobileNav() {
+      var d = document.getElementById('mobileNavDrawer');
+      if (d) d.classList.toggle('active');
+    }
+  </script>
 </body>
 </html>`;
 }
@@ -166,7 +192,7 @@ function getOrgSchema() {
   return {
     "@type": "Organization",
     "@id": `${BASE_URL}/#organization`,
-    "name": "Hardus Plumbing",
+    "name": "24/7 Pipe Rescue",
     "url": `${BASE_URL}/`,
     "telephone": "+18554994130",
     "description": "Nationwide emergency burst pipe repair referral network connecting homeowners with licensed local plumbers.",
@@ -191,7 +217,7 @@ function compileHomepage() {
         "@type": "WebSite",
         "@id": `${BASE_URL}/#website`,
         "url": `${BASE_URL}/`,
-        "name": "Hardus Plumbing",
+        "name": "24/7 Pipe Rescue",
         "publisher": { "@id": `${BASE_URL}/#organization` }
       }
     ]
@@ -202,9 +228,15 @@ function compileHomepage() {
       <div class="container">
         <div class="hero-grid">
           <div>
-            <span class="hero-tag">24/7 Nationwide Emergency Referral Network</span>
-            <h1 class="hero-title">Emergency Burst Pipe Repair Services Nationwide</h1>
-            <p class="hero-subtitle">Water gushing through your ceiling, walls, or basement? Hardus Plumbing connects you with vetted, licensed local plumbers in under 60 seconds.</p>
+            <div class="hero-status-pill">
+              <span class="pulse-indicator"><span class="pulse-ping"></span><span class="pulse-core"></span></span>
+              <span>24/7 Priority Emergency Service Active</span>
+            </div>
+            <div class="hero-eyebrow">
+              <span>💧 24/7 EMERGENCY BURST PIPE REPAIR</span>
+            </div>
+            <h1 class="hero-title">Burst Pipe Repair & <span class="highlight">Plumbing Services</span><br>24/7 Emergency Service</h1>
+            <p class="hero-subtitle">Water gushing through your ceiling, walls, or basement? 24/7 Pipe Rescue connects you with vetted, licensed local plumbers in under 60 seconds.</p>
             <div class="hero-cta-group">
               <a href="${PHONE_TEL}" class="btn-emergency-call">📞 CALL NOW: ${PHONE_DISPLAY}</a>
             </div>
@@ -358,8 +390,8 @@ function compileHomepage() {
   `;
 
   const html = renderLayout({
-    title: "Burst Pipe Repair Services Nationwide | Hardus Plumbing",
-    metaDesc: "Water pipe burst? Hardus Plumbing connects you with 24/7 licensed emergency plumbers nationwide. Fast response, upfront quotes. Call (855) 499-4130.",
+    title: "Burst Pipe Repair Services Nationwide | 24/7 Pipe Rescue",
+    metaDesc: "Water pipe burst? 24/7 Pipe Rescue connects you with 24/7 licensed emergency plumbers nationwide. Fast response, upfront quotes. Call (855) 499-4130.",
     canonical,
     jsonLd,
     breadcrumbs: [],
@@ -387,7 +419,7 @@ function compileServices() {
         "@type": "CollectionPage",
         "@id": `${hubCanonical}#collection`,
         "url": hubCanonical,
-        "name": "Professional Pipe Repair Services | Hardus Plumbing",
+        "name": "Professional Pipe Repair Services | 24/7 Pipe Rescue",
         "description": "Directory of emergency, frozen, underground, and trenchless pipe repair services."
       }
     ]
@@ -397,7 +429,7 @@ function compileServices() {
     <div class="container article-layout">
       <div class="article-content">
         <h1>Professional Pipe Repair Services Directory</h1>
-        <p>Hardus Plumbing connects homeowners and commercial facilities with specialized, licensed plumbing contractors equipped to handle every type of pressurized pipe failure, freeze rupture, and underground water service leak.</p>
+        <p>24/7 Pipe Rescue connects homeowners and commercial facilities with specialized, licensed plumbing contractors equipped to handle every type of pressurized pipe failure, freeze rupture, and underground water service leak.</p>
 
         <h2>Select Your Specific Pipe Problem</h2>
         <div class="service-grid" style="margin: 24px 0;">
@@ -582,7 +614,7 @@ function compileStates() {
     <div class="container article-layout">
       <div class="article-content">
         <h1>Burst Pipe Repair Service Directory by State</h1>
-        <p>Hardus Plumbing provides emergency plumbing referral services across all 50 US States and Washington DC. Select your state below to check regional frost line depth, seasonal weather risks, and licensed contractor networks.</p>
+        <p>24/7 Pipe Rescue provides emergency plumbing referral services across all 50 US States and Washington DC. Select your state below to check regional frost line depth, seasonal weather risks, and licensed contractor networks.</p>
 
         <div class="state-grid" style="margin: 24px 0;">
           ${statesData.map(st => `
@@ -597,7 +629,7 @@ function compileStates() {
   `;
 
   fs.writeFileSync(path.join(statesDir, 'index.html'), renderLayout({
-    title: "Burst Pipe Repair Locations by State | Hardus Plumbing",
+    title: "Burst Pipe Repair Locations by State | 24/7 Pipe Rescue",
     metaDesc: "Find licensed burst pipe repair plumbers across all 50 US states & DC. Fast 24/7 dispatch, local frost data & upfront quotes. Call (855) 499-4130.",
     canonical: hubCanonical,
     jsonLd: { "@context": "https://schema.org", "@graph": [getOrgSchema()] },
@@ -619,8 +651,14 @@ function compileStates() {
         <div class="container">
           <div class="hero-grid">
             <div>
-              <span class="hero-tag">Licensed Contractor Dispatch: ${st.name}</span>
-              <h1 class="hero-title">Burst Pipe Repair in ${st.name}</h1>
+              <div class="hero-status-pill">
+                <span class="pulse-indicator"><span class="pulse-ping"></span><span class="pulse-core"></span></span>
+                <span>24/7 Priority Emergency Service Active</span>
+              </div>
+              <div class="hero-eyebrow">
+                <span>💧 24/7 EMERGENCY BURST PIPE REPAIR</span>
+              </div>
+              <h1 class="hero-title">Burst Pipe Repair in <span class="highlight">${st.name}</span><br>24/7 Emergency Service</h1>
               <p class="hero-subtitle">Connecting ${st.name} homeowners and commercial property managers with vetted, state-licensed emergency plumbers. 24/7 dispatch hotline.</p>
               <div class="hero-cta-group">
                 <a href="${PHONE_TEL}" class="btn-emergency-call">📞 CALL ${st.name.toUpperCase()} DISPATCH: ${PHONE_DISPLAY}</a>
@@ -918,8 +956,14 @@ function compileAllCities() {
           <div class="container">
             <div class="hero-grid">
               <div>
-                <span class="hero-tag">24/7 Emergency Dispatch: ${cityName}, ${st.name}</span>
-                <h1 class="hero-title">Burst Pipe Repair in ${cityName}, ${st.name}</h1>
+                <div class="hero-status-pill">
+                  <span class="pulse-indicator"><span class="pulse-ping"></span><span class="pulse-core"></span></span>
+                  <span>24/7 Priority Emergency Service Active</span>
+                </div>
+                <div class="hero-eyebrow">
+                  <span>💧 24/7 EMERGENCY BURST PIPE REPAIR</span>
+                </div>
+                <h1 class="hero-title">Burst Pipe Repair in <span class="highlight">${cityName}, ${st.name}</span><br>24/7 Emergency Service</h1>
                 <p class="hero-subtitle">Rapid emergency plumber dispatch for burst pipes, slab leaks, and frozen water lines across ${cityName} and surrounding ${st.abbr} communities.</p>
                 <div class="hero-cta-group">
                   <a href="${PHONE_TEL}" class="btn-emergency-call">📞 CALL ${cityName.toUpperCase()} PLUMBER: ${PHONE_DISPLAY}</a>
@@ -1357,7 +1401,7 @@ function compileCosts() {
             "@type": "Article",
             "headline": c.h1,
             "description": c.summary,
-            "author": { "@type": "Organization", "name": "Hardus Plumbing Editorial Team" },
+            "author": { "@type": "Organization", "name": "24/7 Pipe Rescue Editorial Team" },
             "datePublished": "2026-01-15T00:00:00+00:00",
             "dateModified": "2026-10-08T00:00:00+00:00"
           }
@@ -1403,7 +1447,7 @@ function compileResources() {
   `;
 
   fs.writeFileSync(path.join(resDir, 'index.html'), renderLayout({
-    title: "Emergency Plumbing Guides & Prevention | Hardus Plumbing",
+    title: "Emergency Plumbing Guides & Prevention | 24/7 Pipe Rescue",
     metaDesc: "Step-by-step guides: what to do when a pipe bursts, shutting off main valves, thawing frozen pipes & insurance claims. Call (855) 499-4130.",
     canonical: hubCanonical,
     jsonLd: { "@context": "https://schema.org", "@graph": [getOrgSchema()] },
@@ -1454,7 +1498,7 @@ function compileResources() {
             "@type": "Article",
             "headline": r.h1,
             "description": r.metaDesc,
-            "author": { "@type": "Organization", "name": "Hardus Plumbing Editorial Team" },
+            "author": { "@type": "Organization", "name": "24/7 Pipe Rescue Editorial Team" },
             "datePublished": "2026-02-01T00:00:00+00:00",
             "dateModified": "2026-10-08T00:00:00+00:00"
           }
@@ -1562,7 +1606,7 @@ function compileHtmlSitemap() {
   const content = `
     <div class="container article-layout">
       <div class="article-content">
-        <h1>Hardus Plumbing Complete Site Directory</h1>
+        <h1>24/7 Pipe Rescue Complete Site Directory</h1>
         <p>A full index of services, regional hubs, pricing guides, and educational articles.</p>
 
         <h2>Core Pages</h2>
@@ -1601,8 +1645,8 @@ function compileHtmlSitemap() {
   `;
 
   fs.writeFileSync(path.join(sitemapDir, 'index.html'), renderLayout({
-    title: "HTML Sitemap | Hardus Plumbing Site Directory",
-    metaDesc: "Complete hierarchical site index for Hardus Plumbing: emergency services, 50 state directories, pricing guides & resources.",
+    title: "HTML Sitemap | 24/7 Pipe Rescue Site Directory",
+    metaDesc: "Complete hierarchical site index for 24/7 Pipe Rescue: emergency services, 50 state directories, pricing guides & resources.",
     canonical,
     jsonLd: { "@context": "https://schema.org", "@graph": [getOrgSchema()] },
     breadcrumbs: [{ name: "Home", url: "/" }, { name: "Sitemap", url: canonical }],
@@ -1736,7 +1780,7 @@ function copyStaticAssets() {
 }
 
 // Master Run
-console.log('🚀 Building Hardus Plumbing Nationwide Static Platform (30,000+ Locations)...');
+console.log('🚀 Building 24/7 Pipe Rescue Nationwide Static Platform (30,000+ Locations)...');
 ensureDirSync(DIST_DIR);
 copyStaticAssets();
 compileHomepage();

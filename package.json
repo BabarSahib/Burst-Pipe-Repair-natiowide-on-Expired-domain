@@ -1,7 +1,7 @@
 {
-  "name": "hardusplumbing-website",
+  "name": "pipe-rescue-website",
   "version": "1.0.0",
-  "description": "Production nationwide burst pipe repair lead-generation platform for Hardus Plumbing",
+  "description": "Production nationwide burst pipe repair lead-generation platform for 24/7 Pipe Rescue",
   "main": "build.js",
   "scripts": {
     "build": "node build.js",
@@ -15,7 +15,7 @@
     "lead-gen",
     "seo"
   ],
-  "author": "Hardus Plumbing",
+  "author": "24/7 Pipe Rescue",
   "license": "ISC",
   "devDependencies": {
     "wrangler": "^4.149.0"

@@ -1,4 +1,4 @@
-# Hardus Plumbing - Burst Pipe Repair Nationwide Platform
+# 24/7 Pipe Rescue - Burst Pipe Repair Nationwide Platform
 
 Production nationwide lead-generation and programmatic SEO platform for 24/7 emergency burst pipe repair services covering all 50 US States + DC and 30,909 cities.
 
