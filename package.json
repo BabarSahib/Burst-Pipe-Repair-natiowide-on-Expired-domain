@@ -16,5 +16,8 @@
     "seo"
   ],
   "author": "Hardus Plumbing",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "wrangler": "^4.149.0"
+  }
 }
