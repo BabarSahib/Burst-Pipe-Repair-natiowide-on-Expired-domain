@@ -55,12 +55,13 @@ export default {
 
     // 6. Resolve HTML / XML / TXT route via edge renderer
     const result = handleEdgeRoute(url.pathname);
+    const isXmlOrRobots = url.pathname.endsWith('.xml') || url.pathname === '/robots.txt';
 
     return new Response(result.body, {
       status: result.status,
       headers: {
         'Content-Type': result.contentType,
-        'Cache-Control': 'public, max-age=86400, s-maxage=604800',
+        'Cache-Control': isXmlOrRobots ? 'public, max-age=3600, s-maxage=3600, must-revalidate' : 'public, max-age=86400, s-maxage=604800',
         'X-Powered-By': 'Hardus-Plumbing-Edge'
       }
     });
